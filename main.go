@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func getGreeting(name string) string {
+func greeting(name string) string {
 	if name == "" {
 		return "Hello, World!"
 	}
@@ -14,5 +14,5 @@ func getGreeting(name string) string {
 }
 
 func main() {
-	fmt.Println(getGreeting(""))
+	fmt.Println(greeting(""))
 }
