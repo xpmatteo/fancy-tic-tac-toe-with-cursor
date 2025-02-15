@@ -18,6 +18,11 @@ func TestGetGreeting(t *testing.T) {
 			input:    "All",
 			expected: "Hello, All!",
 		},
+		{
+			name:     "capitalizes input",
+			input:    "alice",
+			expected: "Hello, Alice!",
+		},
 	}
 
 	for _, tt := range tests {
