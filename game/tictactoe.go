@@ -42,3 +42,7 @@ func (g *Game) Text() string {
 func (g *Game) Board() [9]string {
 	return g.board
 }
+
+func (g *Game) Winner() string {
+	return ""
+}
