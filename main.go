@@ -31,6 +31,9 @@ func main() {
 			g.MakeMove(position)
 			return nil
 		}),
+		"winner": js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+			return g.Winner()
+		}),
 	}))
 
 	<-c // Keep running
