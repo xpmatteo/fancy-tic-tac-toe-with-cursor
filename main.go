@@ -1,18 +1,29 @@
+//go:build js && wasm
+
 package main
 
-import (
-	"fmt"
-	"strings"
-)
+import "syscall/js"
 
-func greeting(name string) string {
-	if name == "" {
-		return "Hello, World!"
+type Game struct {
+	Board []string
+}
+
+func NewGame() *Game {
+	return &Game{
+		Board: make([]string, 9),
 	}
-	name = strings.ToUpper(name[:1]) + name[1:]
-	return "Hello, " + name + "!"
 }
 
 func main() {
-	fmt.Println(greeting(""))
+	c := make(chan struct{}, 0)
+
+	// Register our game in JavaScript
+	js.Global().Set("tictactoeGame", js.ValueOf(map[string]interface{}{
+		"newGame": js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+			game := NewGame()
+			return game.Board
+		}),
+	}))
+
+	<-c // Keep running
 }
