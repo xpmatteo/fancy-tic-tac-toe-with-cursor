@@ -27,10 +27,24 @@ func TestMakeMove(t *testing.T) {
 		expectedBoard [9]string
 	}{
 		{
-			name:          "valid move",
+			name:          "X plays first",
 			position:      4,
 			expectedErr:   "",
 			expectedBoard: [9]string{"", "", "", "", "X", "", "", "", ""},
+		},
+		{
+			name:          "O plays second",
+			position:      0,
+			setupMoves:    []int{4},
+			expectedErr:   "",
+			expectedBoard: [9]string{"O", "", "", "", "X", "", "", "", ""},
+		},
+		{
+			name:          "X plays third",
+			position:      8,
+			setupMoves:    []int{4, 0},
+			expectedErr:   "",
+			expectedBoard: [9]string{"O", "", "", "", "X", "", "", "", "X"},
 		},
 		{
 			name:          "cell already occupied",
