@@ -7,8 +7,40 @@ import (
 )
 
 func TestText(t *testing.T) {
-	game := NewGame()
-	assert.Equal(t, "hello", game.Text(), "should return hello text")
+	tests := []struct {
+		name         string
+		setupMoves   []int
+		expectedText string
+	}{
+		{
+			name:         "X's turn at start",
+			setupMoves:   []int{},
+			expectedText: "X to move",
+		},
+		{
+			name:         "O's turn after X plays",
+			setupMoves:   []int{4},
+			expectedText: "O to move",
+		},
+		{
+			name:         "X's turn after O plays",
+			setupMoves:   []int{4, 0},
+			expectedText: "X to move",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			game := NewGame()
+
+			// Perform setup moves
+			for _, move := range tt.setupMoves {
+				_ = game.MakeMove(move)
+			}
+
+			assert.Equal(t, tt.expectedText, game.Text())
+		})
+	}
 }
 
 func TestInitialBoard(t *testing.T) {

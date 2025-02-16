@@ -6,7 +6,6 @@ import (
 
 type Game struct {
 	board   [9]string
-	text    string
 	xIsNext bool
 }
 
@@ -29,13 +28,15 @@ func (g *Game) MakeMove(position int) error {
 func NewGame() *Game {
 	return &Game{
 		board:   [9]string{"", "", "", "", "", "", "", "", ""},
-		text:    "hello",
 		xIsNext: true, // X plays first
 	}
 }
 
 func (g *Game) Text() string {
-	return g.text
+	if g.xIsNext {
+		return "X to move"
+	}
+	return "O to move"
 }
 
 func (g *Game) Board() [9]string {
