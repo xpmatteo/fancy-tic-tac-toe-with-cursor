@@ -33,6 +33,9 @@ func NewGame() *Game {
 }
 
 func (g *Game) Text() string {
+	if winner := g.Winner(); winner != "" {
+		return winner + " has won!"
+	}
 	if g.xIsNext {
 		return "X to move"
 	}
