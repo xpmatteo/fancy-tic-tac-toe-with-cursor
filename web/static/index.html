@@ -19,11 +19,16 @@
             font-size: 2em;
             cursor: pointer;
         }
-        .cell:hover {
+        .cell:not(:disabled):hover {
             background: #f0f0f0;
         }
-        .cell:active {
+        .cell:not(:disabled):active {
             background: #e0e0e0;
+        }
+        .cell:disabled {
+            cursor: not-allowed;
+            background: #f8f8f8;
+            color: #333;
         }
     </style>
 </head>
@@ -41,6 +46,7 @@
                 const button = document.createElement('button');
                 button.className = 'cell';
                 button.textContent = cell || '';
+                button.disabled = cell !== ''; // Disable if cell is occupied
                 button.onclick = () => {
                     game.makeMove(index);
                     renderBoard(); // Re-render after move
