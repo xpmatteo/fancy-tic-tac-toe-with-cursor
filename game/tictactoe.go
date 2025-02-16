@@ -5,6 +5,10 @@ type Game struct {
 	text  string
 }
 
+func (g *Game) MakeMove(position int) {
+	g.board[position] = "X"
+}
+
 func NewGame() *Game {
 	return &Game{
 		board: [9]string{"", "", "", "", "", "", "", "", ""},

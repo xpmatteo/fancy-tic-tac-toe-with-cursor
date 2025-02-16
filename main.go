@@ -26,6 +26,11 @@ func main() {
 			}
 			return jsBoard
 		}),
+		"makeMove": js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+			position := args[0].Int()
+			g.MakeMove(position)
+			return nil
+		}),
 	}))
 
 	<-c // Keep running
