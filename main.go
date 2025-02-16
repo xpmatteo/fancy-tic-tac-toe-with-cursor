@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	c := make(chan struct{}, 0)
+	c := make(chan any, 0)
 
 	game := game.NewGame()
 

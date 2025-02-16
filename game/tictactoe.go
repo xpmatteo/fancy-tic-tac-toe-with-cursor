@@ -1,21 +1,21 @@
 package game
 
 type Game struct {
-	board []string
+	board [9]string
 	text  string
-}
-
-func (g *Game) Board() interface{} {
-	return g.board
 }
 
 func NewGame() *Game {
 	return &Game{
-		board: make([]string, 9),
+		board: [9]string{"", "", "", "", "", "", "", "", ""},
 		text:  "hello",
 	}
 }
 
 func (g *Game) Text() string {
 	return g.text
+}
+
+func (g *Game) Board() [9]string {
+	return g.board
 }

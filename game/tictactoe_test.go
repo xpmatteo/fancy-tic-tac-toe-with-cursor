@@ -1,10 +1,18 @@
 package game
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestText(t *testing.T) {
 	game := NewGame()
-	if game.Text() != "hello" {
-		t.Errorf("Expected text to be 'hello', got %q", game.Text())
-	}
+	assert.Equal(t, "hello", game.Text(), "should return hello text")
+}
+
+func TestInitialBoard(t *testing.T) {
+	game := NewGame()
+	expected := [9]string{"", "", "", "", "", "", "", "", ""}
+
+	assert.Equal(t, expected, game.Board(), "should start with empty board")
 }

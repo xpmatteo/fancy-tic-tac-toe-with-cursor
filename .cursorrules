@@ -14,5 +14,6 @@ When helping with Go development:
    - Use table-driven tests when testing multiple scenarios
 5. Follow Go best practices:
    - Use go mod for dependency management
+   - Use testify for assertions
    - Follow standard project structure
    - Write idiomatic Go code
