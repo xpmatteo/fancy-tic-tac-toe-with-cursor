@@ -36,6 +36,9 @@ func (g *Game) Text() string {
 	if winner := g.Winner(); winner != "" {
 		return winner + " has won!"
 	}
+	if g.IsDraw() {
+		return "Game is a draw!"
+	}
 	if g.xIsNext {
 		return "X to move"
 	}
@@ -65,4 +68,16 @@ func (g *Game) Winner() string {
 	}
 
 	return "" // No winner
+}
+
+func (g *Game) IsDraw() bool {
+	if g.Winner() != "" {
+		return false
+	}
+	for _, cell := range g.board {
+		if cell == "" {
+			return false
+		}
+	}
+	return true
 }

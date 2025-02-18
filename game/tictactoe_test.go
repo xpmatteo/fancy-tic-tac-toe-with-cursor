@@ -194,6 +194,11 @@ func TestWinnerText(t *testing.T) {
 			setupMoves:   []int{0, 1, 2, 3},
 			expectedText: "X to move",
 		},
+		{
+			name:         "game is a draw",
+			setupMoves:   []int{0, 1, 2, 4, 3, 5, 7, 6, 8},
+			expectedText: "Game is a draw!",
+		},
 	}
 
 	for _, test := range tests {
@@ -205,12 +210,46 @@ func TestWinnerText(t *testing.T) {
 				_ = game.MakeMove(move)
 			}
 
-			// Check the text based on the winner
-			if winner := game.Winner(); winner != "" {
-				assert.Equal(t, winner+" has won!", game.Text())
-			} else {
-				assert.Equal(t, "X to move", game.Text())
+			assert.Equal(t, test.expectedText, game.Text())
+		})
+	}
+}
+
+func TestIsDraw(t *testing.T) {
+	tests := []struct {
+		name       string
+		setupMoves []int
+		wantDraw   bool
+	}{
+		{
+			name:       "empty board is not a draw",
+			setupMoves: []int{},
+			wantDraw:   false,
+		},
+		{
+			name:       "game in progress is not a draw",
+			setupMoves: []int{0, 1, 2, 3},
+			wantDraw:   false,
+		},
+		{
+			name:       "won game is not a draw",
+			setupMoves: []int{0, 3, 1, 4, 2},
+			wantDraw:   false,
+		},
+		{
+			name:       "draw when board is full with no winner",
+			setupMoves: []int{0, 1, 2, 4, 3, 5, 7, 6, 8},
+			wantDraw:   true,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			game := NewGame()
+			for _, move := range test.setupMoves {
+				_ = game.MakeMove(move)
 			}
+			assert.Equal(t, test.wantDraw, game.IsDraw())
 		})
 	}
 }
