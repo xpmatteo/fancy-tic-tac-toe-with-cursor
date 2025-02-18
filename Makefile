@@ -14,7 +14,7 @@ $(WASMEXEC):
 
 .PHONY: serve
 serve:
-	cd web/static && python -m http.server 8080
+	cd web/static && python3 -m http.server 8080
 
 .PHONY: setup
 setup: $(WASMEXEC) $(WASMFILE)
