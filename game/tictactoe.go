@@ -72,22 +72,44 @@ func (g *Game) Winner() string {
 }
 
 func (g *Game) IsDraw() bool {
-	for _, cell := range g.board {
+	// Count empty cells
+	emptyCount := 0
+	emptyPos := -1
+	for pos, cell := range g.board {
 		if cell == "" {
-			return false
+			emptyCount++
+			emptyPos = pos
 		}
 	}
-	// Check if there is no winner
+
+	// If more than one empty cell, not a draw
+	if emptyCount > 1 {
+		return false
+	}
+
+	// If board is full and no winner, it's a draw
+	if emptyCount == 0 {
+		return !g.hasWinningLine()
+	}
+
+	// If exactly one empty cell, check if filling it with X leads to a win
+	g.board[emptyPos] = "X"
+	hasWin := g.hasWinningLine()
+	g.board[emptyPos] = "" // Reset
+	return !hasWin
+}
+
+func (g *Game) hasWinningLine() bool {
 	for _, combo := range [][3]int{
 		{0, 1, 2}, {3, 4, 5}, {6, 7, 8},
 		{0, 3, 6}, {1, 4, 7}, {2, 5, 8},
 		{0, 4, 8}, {2, 4, 6},
 	} {
 		if g.isWinningLine(combo) {
-			return false
+			return true
 		}
 	}
-	return true
+	return false
 }
 
 func (g *Game) isWinningLine(combo [3]int) bool {

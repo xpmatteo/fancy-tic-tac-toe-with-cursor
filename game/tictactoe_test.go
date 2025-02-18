@@ -190,39 +190,59 @@ func TestText(t *testing.T) {
 
 func TestIsDraw(t *testing.T) {
 	tests := []struct {
-		name       string
-		setupMoves []int
-		wantDraw   bool
+		name  string
+		board [9]string
+		want  bool
 	}{
 		{
-			name:       "empty board is not a draw",
-			setupMoves: []int{},
-			wantDraw:   false,
+			name:  "empty board is not a draw",
+			board: [9]string{"", "", "", "", "", "", "", "", ""},
+			want:  false,
 		},
 		{
-			name:       "game in progress is not a draw",
-			setupMoves: []int{0, 1, 2, 3},
-			wantDraw:   false,
+			name: "full board with no winner is a draw",
+			board: [9]string{
+				"X", "O", "X",
+				"X", "O", "O",
+				"O", "X", "X",
+			},
+			want: true,
 		},
 		{
-			name:       "won game is not a draw",
-			setupMoves: []int{0, 3, 1, 4, 2},
-			wantDraw:   false,
+			name: "one move left, next move forces draw",
+			board: [9]string{
+				"X", "O", "X",
+				"X", "O", "O",
+				"O", "X", "",
+			},
+			want: true,
 		},
 		{
-			name:       "draw when board is full with no winner",
-			setupMoves: []int{0, 1, 2, 4, 3, 5, 7, 6, 8},
-			wantDraw:   true,
+			name: "one move left, next move will win",
+			board: [9]string{
+				"X", "X", "",
+				"X", "O", "O",
+				"O", "X", "O",
+			},
+			want: false,
+		},
+		{
+			name: "multiple empty spaces is not a draw",
+			board: [9]string{
+				"X", "", "O",
+				"", "X", "",
+				"O", "", "",
+			},
+			want: false,
 		},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			game := NewGame()
-			for _, move := range test.setupMoves {
-				_ = game.MakeMove(move)
-			}
-			assert.Equal(t, test.wantDraw, game.IsDraw())
+			g := NewGame()
+			g.board = test.board
+			got := g.IsDraw()
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
