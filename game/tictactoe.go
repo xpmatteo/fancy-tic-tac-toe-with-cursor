@@ -47,8 +47,7 @@ func (g *Game) Text() string {
 }
 
 func (g *Game) Winner() string {
-	_, ok := g.findWinningLine()
-	if ok {
+	if g.hasWinningLine() {
 		return "X" // X wins if there's any winning combination
 	}
 
