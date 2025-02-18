@@ -12,4 +12,4 @@ The implementation is Go with WASM.
 
 # How to
 
-Run the tests with `make test`.  Compile with `make`.  Serve with `make serve` and then open localhost:8080
+Run the tests with `make test`.  Compile with `make`.  Serve with `make serve` and then open http://localhost:8080/
