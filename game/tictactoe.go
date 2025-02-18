@@ -59,7 +59,7 @@ func (g *Game) Winner() string {
 	}
 
 	for _, combo := range winningCombinations {
-		if g.board[combo[0]] != "" && g.board[combo[0]] == g.board[combo[1]] && g.board[combo[1]] == g.board[combo[2]] {
+		if g.isWinningLine(combo) {
 			return "X" // X wins if there's any winning combination
 		}
 	}
@@ -83,9 +83,13 @@ func (g *Game) IsDraw() bool {
 		{0, 3, 6}, {1, 4, 7}, {2, 5, 8},
 		{0, 4, 8}, {2, 4, 6},
 	} {
-		if g.board[combo[0]] != "" && g.board[combo[0]] == g.board[combo[1]] && g.board[combo[1]] == g.board[combo[2]] {
+		if g.isWinningLine(combo) {
 			return false
 		}
 	}
 	return true
+}
+
+func (g *Game) isWinningLine(combo [3]int) bool {
+	return g.board[combo[0]] != "" && g.board[combo[0]] == g.board[combo[1]] && g.board[combo[1]] == g.board[combo[2]]
 }
