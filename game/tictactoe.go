@@ -47,21 +47,9 @@ func (g *Game) Text() string {
 }
 
 func (g *Game) Winner() string {
-	winningCombinations := [][3]int{
-		{0, 1, 2}, // Top row
-		{3, 4, 5}, // Middle row
-		{6, 7, 8}, // Bottom row
-		{0, 3, 6}, // Left column
-		{1, 4, 7}, // Middle column
-		{2, 5, 8}, // Right column
-		{0, 4, 8}, // Diagonal \
-		{2, 4, 6}, // Diagonal /
-	}
-
-	for _, combo := range winningCombinations {
-		if g.isWinningLine(combo) {
-			return "X" // X wins if there's any winning combination
-		}
+	_, ok := g.findWinningLine()
+	if ok {
+		return "X" // X wins if there's any winning combination
 	}
 
 	if g.IsDraw() {
@@ -99,17 +87,28 @@ func (g *Game) IsDraw() bool {
 	return !hasWin
 }
 
-func (g *Game) hasWinningLine() bool {
-	for _, combo := range [][3]int{
-		{0, 1, 2}, {3, 4, 5}, {6, 7, 8},
-		{0, 3, 6}, {1, 4, 7}, {2, 5, 8},
-		{0, 4, 8}, {2, 4, 6},
-	} {
+func (g *Game) findWinningLine() ([3]int, bool) {
+	winningCombinations := [][3]int{
+		{0, 1, 2}, // Top row
+		{3, 4, 5}, // Middle row
+		{6, 7, 8}, // Bottom row
+		{0, 3, 6}, // Left column
+		{1, 4, 7}, // Middle column
+		{2, 5, 8}, // Right column
+		{0, 4, 8}, // Diagonal \
+		{2, 4, 6}, // Diagonal /
+	}
+	for _, combo := range winningCombinations {
 		if g.isWinningLine(combo) {
-			return true
+			return combo, true
 		}
 	}
-	return false
+	return [3]int{}, false
+}
+
+func (g *Game) hasWinningLine() bool {
+	_, ok := g.findWinningLine()
+	return ok
 }
 
 func (g *Game) isWinningLine(combo [3]int) bool {
