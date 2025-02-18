@@ -9,6 +9,17 @@ type Game struct {
 	xIsNext bool
 }
 
+func NewGame() *Game {
+	return &Game{
+		board:   [9]string{"", "", "", "", "", "", "", "", ""},
+		xIsNext: true, // X plays first
+	}
+}
+
+func (g *Game) Board() [9]string {
+	return g.board
+}
+
 func (g *Game) MakeMove(position int) error {
 	if position < 0 || position >= len(g.board) {
 		return fmt.Errorf("invalid position")
@@ -25,13 +36,6 @@ func (g *Game) MakeMove(position int) error {
 	return nil
 }
 
-func NewGame() *Game {
-	return &Game{
-		board:   [9]string{"", "", "", "", "", "", "", "", ""},
-		xIsNext: true, // X plays first
-	}
-}
-
 func (g *Game) Text() string {
 	if winner := g.Winner(); winner != "" {
 		return winner + " has won!"
@@ -43,10 +47,6 @@ func (g *Game) Text() string {
 		return "X to move"
 	}
 	return "O to move"
-}
-
-func (g *Game) Board() [9]string {
-	return g.board
 }
 
 func (g *Game) Winner() string {
