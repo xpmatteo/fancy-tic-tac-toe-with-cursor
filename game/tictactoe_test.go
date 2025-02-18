@@ -6,43 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestText(t *testing.T) {
-	tests := []struct {
-		name         string
-		setupMoves   []int
-		expectedText string
-	}{
-		{
-			name:         "X's turn at start",
-			setupMoves:   []int{},
-			expectedText: "X to move",
-		},
-		{
-			name:         "O's turn after X plays",
-			setupMoves:   []int{4},
-			expectedText: "O to move",
-		},
-		{
-			name:         "X's turn after O plays",
-			setupMoves:   []int{4, 0},
-			expectedText: "X to move",
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			game := NewGame()
-
-			// Perform setup moves
-			for _, move := range tt.setupMoves {
-				_ = game.MakeMove(move)
-			}
-
-			assert.Equal(t, tt.expectedText, game.Text())
-		})
-	}
-}
-
 func TestInitialBoard(t *testing.T) {
 	game := NewGame()
 	expected := [9]string{"", "", "", "", "", "", "", "", ""}
@@ -168,12 +131,27 @@ func TestWinner(t *testing.T) {
 	}
 }
 
-func TestWinnerText(t *testing.T) {
+func TestText(t *testing.T) {
 	tests := []struct {
 		name         string
 		setupMoves   []int
 		expectedText string
 	}{
+		{
+			name:         "X's turn at start",
+			setupMoves:   []int{},
+			expectedText: "X to move",
+		},
+		{
+			name:         "O's turn after X plays",
+			setupMoves:   []int{4},
+			expectedText: "O to move",
+		},
+		{
+			name:         "X's turn after O plays",
+			setupMoves:   []int{4, 0},
+			expectedText: "X to move",
+		},
 		{
 			name:         "X wins top row",
 			setupMoves:   []int{0, 3, 1, 4, 2},
@@ -183,16 +161,6 @@ func TestWinnerText(t *testing.T) {
 			name:         "O wins diagonal",
 			setupMoves:   []int{1, 0, 3, 4, 7, 8},
 			expectedText: "O has won!",
-		},
-		{
-			name:         "no winner on empty board",
-			setupMoves:   []int{},
-			expectedText: "X to move",
-		},
-		{
-			name:         "no winner in ongoing game",
-			setupMoves:   []int{0, 1, 2, 3},
-			expectedText: "X to move",
 		},
 		{
 			name:         "game is a draw",
@@ -205,7 +173,6 @@ func TestWinnerText(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			game := NewGame()
 
-			// Perform setup moves
 			for _, move := range test.setupMoves {
 				_ = game.MakeMove(move)
 			}
