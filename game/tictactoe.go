@@ -41,7 +41,7 @@ func (g *Game) Text() string {
 		return winner + " has won!"
 	}
 	if g.IsDraw() {
-		return "Game is a draw!"
+		return "O has won!"
 	}
 	if g.xIsNext {
 		return "X to move"
@@ -63,19 +63,30 @@ func (g *Game) Winner() string {
 
 	for _, combo := range winningCombinations {
 		if g.board[combo[0]] != "" && g.board[combo[0]] == g.board[combo[1]] && g.board[combo[1]] == g.board[combo[2]] {
-			return g.board[combo[0]] // Return the winner ("X" or "O")
+			return "X" // X wins if there's any winning combination
 		}
+	}
+
+	if g.IsDraw() {
+		return "O" // O wins if the game is a draw
 	}
 
 	return "" // No winner
 }
 
 func (g *Game) IsDraw() bool {
-	if g.Winner() != "" {
-		return false
-	}
 	for _, cell := range g.board {
 		if cell == "" {
+			return false
+		}
+	}
+	// Check if there is no winner
+	for _, combo := range [][3]int{
+		{0, 1, 2}, {3, 4, 5}, {6, 7, 8},
+		{0, 3, 6}, {1, 4, 7}, {2, 5, 8},
+		{0, 4, 8}, {2, 4, 6},
+	} {
+		if g.board[combo[0]] != "" && g.board[combo[0]] == g.board[combo[1]] && g.board[combo[1]] == g.board[combo[2]] {
 			return false
 		}
 	}

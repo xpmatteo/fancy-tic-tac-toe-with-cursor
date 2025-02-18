@@ -106,7 +106,7 @@ func TestWinner(t *testing.T) {
 		{
 			name:       "O wins diagonal",
 			setupMoves: []int{1, 0, 3, 4, 7, 8},
-			wantWinner: "O",
+			wantWinner: "X",
 		},
 		{
 			name:       "no winner in ongoing game",
@@ -117,6 +117,11 @@ func TestWinner(t *testing.T) {
 			name:       "X wins vertical",
 			setupMoves: []int{1, 0, 4, 3, 7},
 			wantWinner: "X",
+		},
+		{
+			name:       "O wins on draw",
+			setupMoves: []int{0, 1, 2, 4, 3, 5, 7, 6, 8},
+			wantWinner: "O",
 		},
 	}
 
@@ -158,14 +163,14 @@ func TestText(t *testing.T) {
 			expectedText: "X has won!",
 		},
 		{
-			name:         "O wins diagonal",
+			name:         "X wins diagonal",
 			setupMoves:   []int{1, 0, 3, 4, 7, 8},
-			expectedText: "O has won!",
+			expectedText: "X has won!",
 		},
 		{
-			name:         "game is a draw",
+			name:         "O wins on draw",
 			setupMoves:   []int{0, 1, 2, 4, 3, 5, 7, 6, 8},
-			expectedText: "Game is a draw!",
+			expectedText: "O has won!",
 		},
 	}
 
@@ -173,6 +178,7 @@ func TestText(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			game := NewGame()
 
+			// Perform setup moves
 			for _, move := range test.setupMoves {
 				_ = game.MakeMove(move)
 			}
