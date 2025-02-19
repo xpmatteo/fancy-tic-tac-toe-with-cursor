@@ -258,6 +258,33 @@ func TestGame_AvailableMoves(t *testing.T) {
 			board:    [9]string{"", "", "", "", "", "", "", "", ""},
 			expected: []int{0, 1, 2, 3, 4, 5, 6, 7, 8},
 		},
+		{
+			name: "partially filled board",
+			board: [9]string{
+				"X", "O", "",
+				"", "X", "",
+				"O", "", "",
+			},
+			expected: []int{2, 3, 5, 7, 8},
+		},
+		{
+			name: "only one move available",
+			board: [9]string{
+				"X", "O", "X",
+				"O", "X", "O",
+				"O", "X", "",
+			},
+			expected: []int{8},
+		},
+		{
+			name: "full board has no moves",
+			board: [9]string{
+				"X", "O", "X",
+				"O", "X", "O",
+				"O", "X", "O",
+			},
+			expected: []int{},
+		},
 	}
 
 	for _, test := range tests {

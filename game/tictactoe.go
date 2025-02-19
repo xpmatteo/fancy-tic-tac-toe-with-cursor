@@ -87,7 +87,7 @@ func (g *Game) IsDraw() bool {
 }
 
 func (g *Game) AvailableMoves() []int {
-	var moves []int
+	moves := []int{}
 	for i, cell := range g.board {
 		if cell == "" {
 			moves = append(moves, i)
