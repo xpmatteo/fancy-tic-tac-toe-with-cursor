@@ -15,5 +15,9 @@ func NewRandomAI(generator RandomGenerator) *RandomAI {
 }
 
 func (ai *RandomAI) ChooseMove(g *game.Game) int {
-	return 0 // This will make the test fail as it always returns 0
+	moves := g.AvailableMoves()
+	if len(moves) == 0 {
+		return 0
+	}
+	return moves[ai.generator.NextValue(len(moves))]
 }
