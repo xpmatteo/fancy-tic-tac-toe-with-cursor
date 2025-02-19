@@ -86,6 +86,10 @@ func (g *Game) IsDraw() bool {
 	return !hasWin
 }
 
+func (g *Game) AvailableMoves() []int {
+	return nil
+}
+
 func (g *Game) findWinningLine() ([3]int, bool) {
 	winningCombinations := [][3]int{
 		{0, 1, 2}, // Top row

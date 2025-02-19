@@ -246,3 +246,25 @@ func TestIsDraw(t *testing.T) {
 		})
 	}
 }
+
+func TestGame_AvailableMoves(t *testing.T) {
+	tests := []struct {
+		name     string
+		board    [9]string
+		expected []int
+	}{
+		{
+			name:     "empty board has all positions available",
+			board:    [9]string{" ", " ", " ", " ", " ", " ", " ", " ", " "},
+			expected: []int{0, 1, 2, 3, 4, 5, 6, 7, 8},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			game := &Game{board: test.board}
+			moves := game.AvailableMoves()
+			assert.Equal(t, test.expected, moves)
+		})
+	}
+}
