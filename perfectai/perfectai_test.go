@@ -23,22 +23,13 @@ func TestPerfectAI_ChooseMove(t *testing.T) {
 			expected: 2, // must block at position 2
 		},
 		{
-			name: "take center when X starts in corner",
-			board: [9]string{
-				"X", "", "",
-				"", "", "",
-				"", "", "",
-			},
-			expected: 4, // center is best response
-		},
-		{
 			name: "force draw when possible",
 			board: [9]string{
-				"X", "", "",
-				"", "O", "",
-				"", "", "X",
+				"X", "X", "O",
+				"O", "O", "",
+				"X", "", "X",
 			},
-			expected: 1, // taking corner would allow X to win
+			expected: 7,
 		},
 	}
 

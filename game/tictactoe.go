@@ -130,3 +130,10 @@ func (g *Game) hasWinningLine() bool {
 func (g *Game) isWinningLine(combo [3]int) bool {
 	return g.board[combo[0]] != "" && g.board[combo[0]] == g.board[combo[1]] && g.board[combo[1]] == g.board[combo[2]]
 }
+
+func (g *Game) Clone() *Game {
+	return &Game{
+		board:   g.board,
+		xIsNext: g.xIsNext,
+	}
+}

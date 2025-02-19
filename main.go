@@ -5,14 +5,14 @@ package main
 import (
 	"syscall/js"
 	"tictactoe/game"
-	"tictactoe/randomai"
+	"tictactoe/perfectai"
 )
 
 func main() {
 	c := make(chan struct{}, 0)
 
 	g := game.NewGame()
-	ai := randomai.NewRandomAI(randomai.NewRealRNG())
+	ai := perfectai.NewPerfectAI()
 
 	// Register our game in JavaScript
 	js.Global().Set("game", js.ValueOf(map[string]interface{}{
@@ -30,14 +30,15 @@ func main() {
 		}),
 		"makeMove": js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 			position := args[0].Int()
-			err := g.MakeMove(position)
-			if err != nil {
+			if err := g.MakeMove(position); err != nil {
 				return err.Error()
 			}
 			if g.Winner() == "" {
 				// AI's turn
 				aiMove := ai.ChooseMove(g)
-				g.MakeMove(aiMove)
+				if err := g.MakeMove(aiMove); err != nil {
+					return err.Error()
+				}
 			}
 			return ""
 		}),

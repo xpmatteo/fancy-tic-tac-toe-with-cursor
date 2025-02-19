@@ -295,3 +295,58 @@ func TestGame_AvailableMoves(t *testing.T) {
 		})
 	}
 }
+
+func TestGame_Clone(t *testing.T) {
+	tests := []struct {
+		name     string
+		board    [9]string
+		xIsNext  bool
+		makeMove int // move to make after cloning
+	}{
+		{
+			name:     "clone empty board",
+			board:    [9]string{"", "", "", "", "", "", "", "", ""},
+			xIsNext:  true,
+			makeMove: 0,
+		},
+		{
+			name: "clone partial game",
+			board: [9]string{
+				"X", "O", "",
+				"", "X", "",
+				"", "", "",
+			},
+			xIsNext:  false,
+			makeMove: 2,
+		},
+		{
+			name: "clone nearly complete game",
+			board: [9]string{
+				"X", "O", "X",
+				"O", "X", "O",
+				"X", "O", "",
+			},
+			xIsNext:  true,
+			makeMove: 8,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			original := &Game{
+				board:   test.board,
+				xIsNext: test.xIsNext,
+			}
+
+			// Create clone and verify it matches
+			clone := original.Clone()
+			assert.Equal(t, original.board, clone.board)
+			assert.Equal(t, original.xIsNext, clone.xIsNext)
+
+			// Modify clone and verify original is unchanged
+			clone.MakeMove(test.makeMove)
+			assert.NotEqual(t, original.board, clone.board)
+			assert.NotEqual(t, original.xIsNext, clone.xIsNext)
+		})
+	}
+}
