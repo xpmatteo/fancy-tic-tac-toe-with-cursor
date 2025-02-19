@@ -16,6 +16,13 @@ func NewGame() *Game {
 	}
 }
 
+func FromBoard(board [9]string) *Game {
+	return &Game{
+		board:   board,
+		xIsNext: true, // X plays first
+	}
+}
+
 func (g *Game) Board() [9]string {
 	return g.board
 }
