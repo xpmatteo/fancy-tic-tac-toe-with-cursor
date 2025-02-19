@@ -255,7 +255,7 @@ func TestGame_AvailableMoves(t *testing.T) {
 	}{
 		{
 			name:     "empty board has all positions available",
-			board:    [9]string{" ", " ", " ", " ", " ", " ", " ", " ", " "},
+			board:    [9]string{"", "", "", "", "", "", "", "", ""},
 			expected: []int{0, 1, 2, 3, 4, 5, 6, 7, 8},
 		},
 	}

@@ -87,7 +87,13 @@ func (g *Game) IsDraw() bool {
 }
 
 func (g *Game) AvailableMoves() []int {
-	return nil
+	var moves []int
+	for i, cell := range g.board {
+		if cell == "" {
+			moves = append(moves, i)
+		}
+	}
+	return moves
 }
 
 func (g *Game) findWinningLine() ([3]int, bool) {
