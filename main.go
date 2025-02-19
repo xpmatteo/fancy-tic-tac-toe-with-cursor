@@ -31,12 +31,15 @@ func main() {
 		"makeMove": js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 			position := args[0].Int()
 			err := g.MakeMove(position)
-			if err == nil && g.Winner() == "" {
+			if err != nil {
+				return err.Error()
+			}
+			if g.Winner() == "" {
 				// AI's turn
 				aiMove := ai.ChooseMove(g)
 				g.MakeMove(aiMove)
 			}
-			return nil
+			return ""
 		}),
 		"winner": js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 			return g.Winner()

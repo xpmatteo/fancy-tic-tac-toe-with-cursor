@@ -30,11 +30,16 @@
             background: #f8f8f8;
             color: #333;
         }
+        .error-message {
+            color: red;
+            min-height: 1.2em;
+        }
     </style>
 </head>
 <body>
     <div id="content"></div>
     <div class="board" id="board"></div>
+    <p id="error" class="error-message"></p>
     
     <script src="wasm_exec.js"></script>
     <script>
@@ -50,7 +55,8 @@
                 button.textContent = cell || '';
                 button.disabled = cell !== '' || hasWinner;
                 button.onclick = () => {
-                    game.makeMove(index);
+                    const error = game.makeMove(index);
+                    document.getElementById('error').textContent = error;
                     renderBoard();
                     updateTurnText();
                 };
